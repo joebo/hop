@@ -49,6 +49,7 @@ import org.apache.hop.ui.core.widget.TableView;
 import org.apache.hop.ui.core.widget.TextVar;
 import org.apache.hop.ui.hopgui.file.pipeline.HopPipelineFileType;
 import org.apache.hop.ui.pipeline.transform.BaseTransformDialog;
+import org.apache.hop.ui.pipeline.transform.ITableItemInsertListener;
 import org.apache.hop.ui.util.SwtSvgImageUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
@@ -663,6 +664,9 @@ public class SimpleMappingDialog extends BaseTransformDialog implements ITransfo
               } else {
                 // OUTPUT
                 //
+
+                ITableItemInsertListener listener = (tableItem, v) -> { tableItem.setText(2, tableItem.getText((1))); return true; };
+
                 IRowMeta sourceRowMeta = getFieldsFromTransform(true, input);
                 BaseTransformDialog.getFieldsFromPrevious(
                     sourceRowMeta,
@@ -674,7 +678,7 @@ public class SimpleMappingDialog extends BaseTransformDialog implements ITransfo
                     new int[] {},
                     -1,
                     -1,
-                    null);
+                    listener);
               }
             } catch (HopException e) {
               new ErrorDialog(
